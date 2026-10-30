@@ -10,7 +10,7 @@ public class PropertiesReader {
     public static String readKey(String key){
     Properties p;
     String user_dir = System.getProperty("user.dir");
-    String file_path = user_dir + "src/main/resources/data.properties";
+    String file_path = user_dir + "/src/main/resources/data.properties";
 
         FileInputStream fileInputStream;
 

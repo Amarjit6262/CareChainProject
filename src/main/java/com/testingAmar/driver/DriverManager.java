@@ -3,10 +3,17 @@ import com.testingAmar.utils.PropertiesReader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.devtools.DevTools;
+import org.openqa.selenium.devtools.HasDevTools;
+import org.openqa.selenium.devtools.v137.network.Network;
+import org.openqa.selenium.devtools.v137.network.model.Headers;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class DriverManager {
@@ -24,7 +31,13 @@ public class DriverManager {
     //initialize the driver
     public static void init() {
         String browser = PropertiesReader.readKey("browser");
-        browser = browser.toLowerCase();
+        if (browser == null ) {
+            throw new IllegalStateException(
+                    "Browser is not configured in the properties file."
+            );
+        }
+
+        browser = browser.toLowerCase().trim();
 
         switch (browser) {
             case "edge":
@@ -37,14 +50,32 @@ public class DriverManager {
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments("--start-maximized");
                 driver = new ChromeDriver(chromeOptions);
-                break;
+/*
+                DevTools devTools =
+                        ((HasDevTools) DriverManager.getDriver()).getDevTools();
+
+                devTools.createSession();
+
+                Map<String, Object> headers = new HashMap<>();
+               headers.put("X-Mobile-App", "carechain-integration");
+
+                devTools.send(Network.enable(
+                        java.util.Optional.empty(),
+                        java.util.Optional.empty(),
+                        java.util.Optional.empty()
+                ));
+
+                devTools.send(Network.setExtraHTTPHeaders(new Headers(headers)));
+  */              break;
             case "firefox":
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.addArguments("--start-maximized");
                 driver = new FirefoxDriver(firefoxOptions);
                 break;
             default:
-                System.out.println("Browser not Supported!");
+                throw new IllegalArgumentException(
+                        "Browser not supported: " + browser
+                );
         }
     }
 //When close the browser
