@@ -15,10 +15,14 @@ public class LoginPage extends CommonToAllPage {
         this.driver = driver;
     }
 
-    private  By username =  By.cssSelector("input[type='mail']");
-    private  By password =  By.cssSelector("input[type='password']");
-    private  By loginButton = By.xpath("//button[@type='submit']");
-    By error_message = By.xpath("//div[@role='alert' and contains(.,'User name or password is incorrect')]");
+    private  By username =
+            By.cssSelector("input[type='mail']");
+    private  By password =
+            By.cssSelector("input[type='password']");
+    private  By loginButton =
+            By.xpath("//button[@type='submit']");
+    By error_message =
+            By.xpath("//div[@role='alert' and contains(.,'User name or password is incorrect')]");
 
     public void loginWithValidCredentials(String user, String pwd) {
 
