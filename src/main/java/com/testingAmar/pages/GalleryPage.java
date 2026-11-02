@@ -1,4 +1,5 @@
 package com.testingAmar.pages;
 
-public class AppointmentPage {
+public class GalleryPage {
+
 }
